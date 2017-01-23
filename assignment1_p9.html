@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Build a software ASCII transmitter/receiver simulator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+		<style>
+			.container-fluid {
+				max-width: 1000px;
+			}
+      body {
+        background-color: #1D1F21;
+        color: #D1D1D2;
+      }
+      .redtext {
+        color: coral;
+      }
+    </style>
+  </head>
+  <body>
+    
+		<div class="container-fluid">
+    <h1>Build a software ASCII transmitter/receiver simulator</h1>
+		<p><strong>Input your string to convert to binary code:</strong></p>
+			<p><textarea rows="4" cols="50" id="sTheStrings">s302</textarea>
+		<br><button onclick="stringSubmit()">Submit</button></p>
+		<p><strong>See binary code result:</strong></p>
+			<p id="sTheBianary">...</p>
+		<p><strong>Original string:</strong></p>
+			<p id="theOrigString">...</p>
+		<hr>
+			
+		<p><strong>Input your binary code to convert back to a string:</strong></p>
+			<p><textarea rows="4" cols="50" id="bTheBianary">1010011 1100101 1100101 100000 1110011 1110000 1101111 1110100 101110</textarea>
+		<br><button onclick="binarySubmit()">Submit</button></p>
+		<p><strong>See string result:</strong></p>
+			<p id="bTheStrings">...</p>
+		<hr>
+
+    <script>
+			//********************************************
+			//**  Code Author: Joan Williams
+			//**  Date: 1/16/17
+			/* #### 9) (Project). Build a software ASCII transmitter/receiver simulator:  (10 points)
+
+			http://sticksandstones.kstrom.com/appen.html
+			http://cse1.net/recaps/2-binary.html
+			charCodeAt - will give you the decimal value then you can use baseConverter.js to convert the decimal to the bianary
+
+			1.  Build a JavaScript function that accepts a string argument, generates an ASCII equivalent, and then ‘transmits’ ones and zeroes (on/offs) at a certain rate.
+
+			2.  Build function that receives ones and zeroes and transforms back to the original string.
+
+			Hint: Use baseConverter.js in your solution. See: ./module1/transmitter/baseConverter.js 
+
+			From STRING to BIANARY:
+			1) Get the input for the string
+			2) Chop up the string and put it in an array
+			3) Use charCodeAt to get the decimal value
+			4) Use baseConverter.js to get the bianary
+			5) Output to the p tags
+
+			*/
+			//********************************************
+			
+/**
+
+* Convert From/To Binary/Decimal/Hexadecimal in JavaScript
+
+* https://gist.github.com/faisalman
+
+*
+
+* Copyright 2012-2015, Faisalman <fyzlman@gmail.com>
+
+* Licensed under The MIT License
+
+* http://www.opensource.org/licenses/mit-license
+
+*/
+
+
+
+(function(){
+
+
+
+    var ConvertBase = function (num) {
+
+        return {
+
+            from : function (baseFrom) {
+
+                return {
+
+                    to : function (baseTo) {
+
+                        return parseInt(num, baseFrom).toString(baseTo);
+
+                    }
+
+                };
+
+            }
+
+        };
+
+    };
+
+        
+
+    // binary to decimal
+
+    ConvertBase.bin2dec = function (num) {
+
+        return ConvertBase(num).from(2).to(10);
+
+    };
+
+    
+
+    // binary to hexadecimal
+
+    ConvertBase.bin2hex = function (num) {
+
+        return ConvertBase(num).from(2).to(16);
+
+    };
+
+    
+
+    // decimal to binary
+
+    ConvertBase.dec2bin = function (num) {
+
+        return ConvertBase(num).from(10).to(2);
+
+    };
+
+    
+
+    // decimal to hexadecimal
+
+    ConvertBase.dec2hex = function (num) {
+
+        return ConvertBase(num).from(10).to(16);
+
+    };
+
+    
+
+    // hexadecimal to binary
+
+    ConvertBase.hex2bin = function (num) {
+
+        return ConvertBase(num).from(16).to(2);
+
+    };
+
+    
+
+    // hexadecimal to decimal
+
+    ConvertBase.hex2dec = function (num) {
+
+        return ConvertBase(num).from(16).to(10);
+
+    };
+
+    
+
+    this.ConvertBase = ConvertBase;
+
+    
+
+})(this);
+
+			//** Function to get from a string to bianary
+			function stringSubmit() {
+				// 1) The string
+				var currentString;
+				console.log("The current string is: " + currentString);
+				// 2) Chopping it up
+				var stringCharArray = [];
+				console.log("The current array is: " + stringCharArray);
+				
+				// 1) Gets the string
+				var userInputString = document.getElementById("sTheStrings");	
+				var preview = document.getElementById("theOrigString");
+				preview.innerHTML = userInputString.value;
+				currentString = userInputString.value;
+				console.log("The current string is: " + currentString);
+				
+				// 2) Chops the string up
+				for (i=0; i<currentString.length; i++) {
+					var stringChar = currentString.charAt(i);
+					stringCharArray.push(stringChar);
+				}
+				console.log("Array after chopping: " + stringCharArray);
+				
+				// 3) Use charCodeAt to get the decimal value
+				for (j=0; j<stringCharArray.length; j++) {
+					var theNum = stringCharArray[j].charCodeAt(0);
+					stringCharArray[j] = theNum;
+					console.log(theNum);
+				}
+				console.log("Array after charCodeAt: " + stringCharArray);
+			
+				// 4) Use baseConverter.js to get bianary
+				for (k=0; k<stringCharArray.length; k++) {
+					var theOrigNum = stringCharArray[k];
+					var theBiNum = ConvertBase.dec2bin(theOrigNum);
+					stringCharArray[k] = theBiNum;
+				}
+				console.log("Array after baseConverter: " + stringCharArray);
+				
+				// 5) Print the bianary 
+				var biString = stringCharArray.join(' ');
+				console.log(biString);
+				
+//				// 6) Get the string and delete the commas
+//				for (l=0; l<stringCharArray.length-1; l++) {
+//					var comma = biString.replace(",", " ");
+//					var biString = comma;
+//					console.log("No commas: " + comma);	
+//				}
+				
+				// Update the bianary
+				var sTheBi = document.getElementById("sTheBianary");
+				sTheBi.innerHTML = biString;
+				
+			};
+			
+			//** Function to get from binary to a string
+			// 1) Get the binary string
+			function binarySubmit() {
+				var userInputBinary = document.getElementById("bTheBianary");
+				var theStringB = userInputBinary.value; //user's binary
+				console.log("The user's binary is: " + theStringB);
+				
+			// 2) Chop the binary up using the spaces inbetween the numbers 
+				var binaryArray = theStringB.split(" ");
+				console.log("Binary array: " + binaryArray);
+				
+			// 3) Use baseConverter.js to convert from binary to decimal
+				for (m=0; m<binaryArray.length; m++) {
+					var theBi = binaryArray[m];
+					var decNumb = ConvertBase.bin2dec(theBi);
+					binaryArray[m] = decNumb;
+				}
+				console.log("Bianary array converted to dec: " + binaryArray);
+				
+			// 4) Use var res = String.fromCharCode(65); to convert from decimal back to character.
+				for (n=0; n<binaryArray.length; n++) {
+					var theDec = binaryArray[n];
+					var theCharacter = String.fromCharCode(theDec);
+					binaryArray[n] = theCharacter;
+				}
+				console.log("Binary array converted to char: " + binaryArray);
+				
+			// 5) Make the array into a string
+				var charString = binaryArray.join('');
+				console.log("Joined array: " + charString);
+				
+//			// 6) Delete the commas and add spaces
+//				for (o=0; o<binaryArray.length; o++) {
+//					var cleanString = charString.replace(",", "");
+//					var charString = cleanString;
+//					console.log("No commas: " + cleanString);
+//				}	
+			
+			// 7) Write answer to the webpage
+				var bTheS = document.getElementById("bTheStrings");
+				bTheS.innerHTML = charString;
+				
+			};
+			
+			
+
+
+					
+    </script>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
